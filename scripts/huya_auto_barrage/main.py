@@ -12,13 +12,23 @@ from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 
 # constants
-URL = 'https://www.huya.com/816515' #312931 邱老师, 22234269 波波， 22289663
+URL = 'https://www.huya.com/22234269' #312931 邱老师, 22234269 波波， 22289663, 816515 保镖
 MSG_RATE = 15
-DATA_SET = 'data/data2.json'
+DATA_SET = 'data/data.json'
 
 # global variable
 start_time = 0
 counter = 0
+username = ''
+password = ''
+
+
+def load_conf():
+    global username, password
+    with open('conf/pass.json') as f:
+        data = json.load(f)
+    username = data['username']
+    password = data['password']
 
 
 def load_data():
@@ -44,12 +54,12 @@ def load_main_page(browser, url):
             break
 
 
-def auto_login(browser):
+def auto_login(browser, username, password):
     browser.find_element_by_id('nav-login').click()
     browser.switch_to.frame("UDBSdkLgn_iframe")
     time.sleep(3)
-    browser.find_element_by_xpath('//div[@class="udb-input-item"]//input[@placeholder="手机号/虎牙号"]').send_keys('**********')
-    browser.find_element_by_xpath('//div[@class="udb-input-item"]//input[@placeholder="密码"]').send_keys('*********')
+    browser.find_element_by_xpath('//div[@class="udb-input-item"]//input[@placeholder="手机号/虎牙号"]').send_keys(username)
+    browser.find_element_by_xpath('//div[@class="udb-input-item"]//input[@placeholder="密码"]').send_keys(password)
     browser.find_element_by_id("login-btn").click()
     time.sleep(20)
     browser.get(URL)
@@ -84,11 +94,14 @@ def send_msg(browser, msg):
         counter += 1
 
 
+# def filter_msg(msg):
+#     filtered = msg
+#     if msg == '666':
+#         return filtered
+#     return '@' + filtered + '天气'
+
 def filter_msg(msg):
-    filtered = msg
-    if msg == '666':
-        return filtered
-    return '@' + filtered + '天气'
+    return msg
 
 
 def process_data(data):
@@ -109,14 +122,14 @@ def keyboardInterruptHandler(signal, frame):
     exit(0)
 
 
-# signal.signal(signal.SIGINT, keyboardInterruptHandler)
+signal.signal(signal.SIGINT, keyboardInterruptHandler)
 start_time = datetime.now()
-
+load_conf()
 msg = load_data()
 browser = webdriver.Chrome("driver/chromedriver")
 load_main_page(browser, URL)
 # time.sleep(20)
-auto_login(browser)
+auto_login(browser, username, password)
 send_msg(browser, msg)
 #
 # # close browser
