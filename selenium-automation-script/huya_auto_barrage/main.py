@@ -1,8 +1,8 @@
-'''
+"""
 reference:
 https://blog.csdn.net/u014510302/article/details/52766745
 https://blog.csdn.net/weixin_42323343/article/details/106145187?utm_medium=distribute.pc_relevant.none-task-blog-baidujs-3
-'''
+"""
 import time
 import json
 import signal
@@ -12,9 +12,9 @@ from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 
 # constants
-URL = 'https://www.huya.com/22234269' #312931 邱老师, 22234269 波波， 22289663, 816515 保镖
+URL = 'https://www.huya.com/816515' #312931 邱老师, 22234269 波波， 22289663, 816515 保镖
 MSG_RATE = 15
-DATA_SET = 'data/data.json'
+DATA_SET = 'data/data2.json'
 
 # global variable
 start_time = 0
@@ -68,20 +68,20 @@ def auto_login(browser, username, password):
 
 def send_msg(browser, msg):
     global counter
-    print('send msg')
+
     while True:
-        print('start sending text')
+        print('DEBUG: start sending msg')
         while True:
             try:
-                print('finding text area')
+                print('DEBUG: fetch text area')
                 browser.find_element_by_id('pub_msg_input')
                 input_text = browser.find_element_by_id('pub_msg_input')
             except NoSuchElementException:
-                print('cannot find input area, refreshing the page')
+                print('def send_msg: cannot fetch text area, refreshing the page')
                 browser.refresh()
                 time.sleep(5)
             except Exception as e:
-                print('send msg, unknown exception')
+                print('def send_msg: unknown exception')
                 print(e)
             else:
                 break
@@ -90,8 +90,18 @@ def send_msg(browser, msg):
         time.sleep(1)
         send_btn = browser.find_element_by_id('msg_send_bt')
         send_btn.click()
+        print('DEBUG: msg sent')
         time.sleep(MSG_RATE)
         counter += 1
+
+
+def process_data(data):
+    result = []
+    for province in data['provinces']:
+        for city in province['citys']:
+            result.append(city['citysName'])
+
+    return result
 
 
 # def filter_msg(msg):
@@ -102,15 +112,6 @@ def send_msg(browser, msg):
 
 def filter_msg(msg):
     return msg
-
-
-def process_data(data):
-    result = []
-    for province in data['provinces']:
-        for city in province['citys']:
-            result.append(city['citysName'])
-
-    return result
 
 
 def keyboardInterruptHandler(signal, frame):
@@ -128,8 +129,8 @@ load_conf()
 msg = load_data()
 browser = webdriver.Chrome("driver/chromedriver")
 load_main_page(browser, URL)
-# time.sleep(20)
 auto_login(browser, username, password)
+msg = ['666666666666666666666666666666']
 send_msg(browser, msg)
 #
 # # close browser

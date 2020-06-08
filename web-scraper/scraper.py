@@ -83,7 +83,7 @@ def handle_request(link, name, dir):
     user_agent = random.choice(USER_AGENT_LIST)
     headers = {'User-Agent': user_agent}
     try:
-        print('[I] Sending request using proxy %s, user agent %s' % (proxy, user_agent))
+        print('[I] Sending request using proxy: %s, user agent: %s' % (proxy, user_agent))
         r = requests.get(link, headers=headers, proxies={"http": proxy, "https": proxy}, stream=True)
         if r.status_code == 200:
             r.raw.decode_content = True
@@ -116,7 +116,7 @@ def extract_url(tags):
     for tag in tags:
         src = tag.get('data-src')
         if src:
-            src = re.match(r"YOU NEED A REGEX HERE", src)
+            src = re.match(r"((?:https:\/\/www.iplusinteractif.com\/storage\/assets-prod\/book_content\/.*thumbs.*)\/(.*\.(?:png)))", src)
             if src:
                 (link, name) = src.groups()
                 url_list.append(link.replace("thumbs/", ""))
@@ -171,7 +171,7 @@ def init():
 def main():
     # html = get_source('link you want')
     init()
-    file_path = "YOUR FILE PATH"
+    file_path = "html source file"
     with open(file_path, "r") as f:
         contents = f.read()
         text = soup(contents, 'html.parser')
@@ -180,7 +180,6 @@ def main():
     urls = extract_url(tags)
     download_single_thread(urls, 'new_folder')
     write_error_log(error_requests)
-    print(get_user_agents())
 
 
 if __name__ == '__main__':
