@@ -3,6 +3,9 @@
 An automation tool for sending barrages on [Huya](https://www.huya.com/) website.
 
 Note: barrage, also called danmu, bullet comments, bullet screen, etc, is a live commenting system often existing in Chinese video live streaming website.
+<p align="center">
+  <img width="" height="" src="./cover.gif">
+</p>
 
 ## Getting Started
 
@@ -40,8 +43,8 @@ Selenium requires a driver to interface with the chosen browser. Chrome is the c
 - Auto Login
 - Send barrage in user defined rate
 - User configured barrage in file
-- Barrage captured
-- Machine populated barrage set
+- Barrage captured - WIP
+- Machine populated barrage set - WIP
 
 ## Demo
 
