@@ -12,9 +12,9 @@ from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 
 # constants
-URL = 'https://www.huya.com/816515' #312931 邱老师, 22234269 波波， 22289663, 816515 保镖
-MSG_RATE = 15
-DATA_SET = 'data/data2.json'
+URL = 'https://www.huya.com/22471578' #312931 邱老师, 22234269 波波， 22289663, 816515 保镖， 22471578 菠萝包
+MSG_RATE = 20 # tested min 15
+DATA_SET = 'data/data.json'
 
 # global variable
 start_time = 0
@@ -62,7 +62,7 @@ def auto_login(browser, username, password):
     browser.find_element_by_xpath('//div[@class="udb-input-item"]//input[@placeholder="密码"]').send_keys(password)
     browser.find_element_by_id("login-btn").click()
     time.sleep(20)
-    browser.get(URL)
+    # browser.get(URL)
     browser.switch_to.default_content()
 
 
@@ -130,7 +130,7 @@ msg = load_data()
 browser = webdriver.Chrome("driver/chromedriver")
 load_main_page(browser, URL)
 auto_login(browser, username, password)
-msg = ['666666666666666666666666666666']
+# msg = ['666666666666666666666666666666']
 send_msg(browser, msg)
 #
 # # close browser
