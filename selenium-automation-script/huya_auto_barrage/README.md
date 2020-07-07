@@ -48,6 +48,9 @@ Selenium requires a driver to interface with the chosen browser. Chrome is the c
 
 ## Demo
 
+## System View
+![system schema](BasicFlowchart1.jpg)
+
 ## Built With
 
 * [Selenium Python Binding](https://selenium-python.readthedocs.io/api.html#module-selenium.webdriver.chrome.webdriver) - Python language bindings for Selenium WebDriver - Browser-based automation tool
